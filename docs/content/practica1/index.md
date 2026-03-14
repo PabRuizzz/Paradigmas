@@ -1,5 +1,12 @@
 # Reporte de Actividad — Sistema de Cola de Impresión
 
+# Práctica 1
+
+Pablo Fernando Ruiz Perez  379207
+
+Jose Carlos Gallegos Mariscal  
+13 de marzo de 2026  
+
 ## 1. Introducción
 
 El objetivo de esta actividad fue desarrollar un sistema que simule una cola de impresión utilizando estructuras de datos en C.
@@ -378,3 +385,7 @@ impletentacion de tarea por prioridad (1 prioridad URGENTE).
 Durante esta practica aprendí lo que es una cola y como estas se comportan al introducir y sacar datos de la misma, tambien esta actividad me ayudo a comprender el uso de const para especificar que una variable no se modificara en los agurmentos de una funcion mediante el uso de const, lo cual permite una mayor legibilidad y entendimiento de las funciones.
 
 Ademas, esta practica me ayudo a consolidar mis conocimientos del uso de memoria dinamica, y el manejo de listas, vistas en la materia de estructura de datos.
+
+Repositorio: https://github.com/PabRuizzz/Paradigmas/actions/runs/22252480222
+
+Página: https://pabruizzz.github.io/Paradigmas/
