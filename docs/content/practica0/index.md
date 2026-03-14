@@ -4,12 +4,12 @@ date: 2026-02-20
 draft: false
 ---
 
-# Paradigmas de la Programación: Práctica 0
+# Práctica 0
 
-**Nombre:** Pablo Fernando Ruiz Perez     **Matrícula:** 379207
+Pablo Fernando Ruiz Perez  379207
 
-**Profesor:** Jose Carlos Gallegos Mariscal  
-**Fecha:** 20 de febrero de 2026  
+Jose Carlos Gallegos Mariscal  
+20 de febrero de 2026  
 
 # Uso de Markdown
 
@@ -166,7 +166,7 @@ Posteriormente se agrega la clave pública en GitHub dentro de:
 
 Settings → SSH and GPG Keys → New SSH Key
 
-# Sesión 3 – Hugo y GitHub Actions
+# Hugo y GitHub
 
 ## ¿Qué es Hugo?
 
@@ -341,8 +341,6 @@ jobs:
         id: deployment
         uses: actions/deploy-pages@v4
 ```
-
-Cada vez que se realiza un `git push`, el sitio se compila y publica automáticamente en GitHub Pages.
 
 
 # Conclusión General
