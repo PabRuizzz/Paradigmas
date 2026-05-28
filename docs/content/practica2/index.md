@@ -2,7 +2,7 @@
 title: "Práctica 2: Parking"
 date: 2026-04-03
 draft: false
-weight = 3
+weight: 3
 ---
 # Práctica 2
 

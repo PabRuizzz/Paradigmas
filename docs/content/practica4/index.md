@@ -2,7 +2,7 @@
 title: "Práctica 4: Prolog"
 date: 2026-05-27
 draft: false
-weight = 5 
+weight: 5 
 ---
 # Práctica 4
 

@@ -1,10 +1,9 @@
 ---
-title: "Práctica 0: Manejo de Repositorios (Markdown, Git, Hugo)"
+title: "Práctica 0: Manejo de Repositorios"
 date: 2026-02-20
 draft: false
-weight = 1 
+weight: 1
 ---
-
 # Práctica 0
 
 Pablo Fernando Ruiz Perez  379207

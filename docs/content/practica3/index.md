@@ -2,7 +2,7 @@
 title: "Práctica 3: Haskell"
 date: 2026-04-01
 draft: false
-weight = 4
+weight: 4
 ---
 # Práctica 3
 
