@@ -1,6 +1,6 @@
 ---
 title: "Práctica 2: Parking"
-date: 2026-05-01
+date: 2026-04-03
 draft: false
 ---
 

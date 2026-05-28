@@ -1,6 +1,6 @@
 ---
 title: "Práctica 3: Haskell"
-date: 2026-05-01
+date: 2026-04-01
 draft: false
 ---
 
