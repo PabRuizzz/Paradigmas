@@ -1,6 +1,6 @@
 ---
 title: "Práctica 1: Colas"
-date: 2026-05-01
+date: 2026-03-13
 draft: false
 ---
 
