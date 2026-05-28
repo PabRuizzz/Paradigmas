@@ -1,3 +1,9 @@
+---
+title: "Práctica 4: Prolog"
+date: 2026-05-27
+draft: false
+---
+
 # Reporte de Actividad — Prolog
 
 # Práctica 4
