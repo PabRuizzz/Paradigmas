@@ -2,7 +2,6 @@
 
 #define MAX_USER 32
 #define MAX_DOC 48
-#define MAX_JOBS 10
 
 typedef enum
 {
@@ -31,25 +30,32 @@ typedef struct
     // int ms_por_pagina; opcional para simulacion
 } PrintJob_t;
 
+typedef struct Node_t
+{
+    PrintJob_t job;
+    struct Node_t *next;
+} Node_t;
+
 typedef struct
 {
-    PrintJob_t data[MAX_JOBS];
-    int size; // cantidad actual de elementos
-} QueueStatic_t;
-
+    Node_t *head; // frente
+    Node_t *tail; // final
+    int size;
+} QueueDynamic_t;
 
 void menu();
 int msg();
-void qs_init(QueueStatic_t *q);
-int qs_is_empty(const QueueStatic_t *q);
-int qs_is_full(const QueueStatic_t *q);
-PrintJob_t qs_job(int *id);
-int qs_enqueue(QueueStatic_t *q, PrintJob_t job);
-int qs_peek(const QueueStatic_t *q, PrintJob_t *out);
-int qs_dequeue(QueueStatic_t *q, PrintJob_t *out);
-void qs_print(const QueueStatic_t *q);
-void qs_out(const PrintJob_t job);
-void qs_encabezado();
+void qd_init(QueueDynamic_t *q);
+int qd_is_empty(const QueueDynamic_t *q);
+PrintJob_t qd_job(int *id);
+int qd_enqueue(QueueDynamic_t *q, PrintJob_t job);
+Node_t *qd_nodo(PrintJob_t job);
+int qd_peek(const QueueDynamic_t *q, PrintJob_t *out);
+int qd_dequeue(QueueDynamic_t *q, PrintJob_t *out);
+void qd_print(const QueueDynamic_t *q);
+void qd_out(const PrintJob_t job);
+void qd_destroy(QueueDynamic_t *q);
+void qd_encabezado();
 
 int main()
 {
@@ -71,8 +77,8 @@ int msg()
 void menu()
 {
     PrintJob_t out;
-    QueueStatic_t q[10];
-    qs_init(q);
+    QueueDynamic_t q;
+    qd_init(&q);
     int id = 1;
     int op;
 
@@ -83,25 +89,30 @@ void menu()
         switch (op)
         {
         case 1:
-            if (!qs_is_full(q))
+            if (qd_enqueue(&q, qd_job(&id)))
             {
-                qs_enqueue(q, qs_job(&id));
                 printf("Trabajo agregado a la cola.\n");
                 system("PAUSE");
             }
             else
             {
-                printf("La cola esta llena\n");
-                system("PAUSE");
+                printf("No se pudo agregar el trabajo a la cola\n");
             }
             break;
         case 2:
-            if (!qs_is_empty(q))
+            if (!qd_is_empty(&q))
             {
-                qs_peek(q, &out);
-                qs_encabezado();
-                qs_out(out);
-                system("PAUSE");
+                if (qd_peek(&q, &out))
+                {
+                    qd_encabezado();
+                    qd_out(out);
+                    system("PAUSE");
+                }
+                else
+                {
+                    printf("No se pudo crear el trabajo\n");
+                    system("PAUSE");
+                }
             }
             else
             {
@@ -110,13 +121,15 @@ void menu()
             }
             break;
         case 3:
-            if (!qs_is_empty(q))
+            if (!qd_is_empty(&q))
             {
-                qs_dequeue(q, &out);
-                printf("SALIDA\n");
-                qs_encabezado();
-                qs_out(out);
-                system("PAUSE");
+                if (qd_dequeue(&q, &out))
+                {
+                    printf("SALIDA\n");
+                    qd_encabezado();
+                    qd_out(out);
+                    system("PAUSE");
+                }
             }
             else
             {
@@ -125,9 +138,9 @@ void menu()
             }
             break;
         case 4:
-            if (!qs_is_empty(q))
+            if (!qd_is_empty(&q))
             {
-                qs_print(q);
+                qd_print(&q);
             }
             else
             {
@@ -137,9 +150,10 @@ void menu()
             break;
         }
     } while (op != 5);
+    qd_destroy(&q);
 }
 
-PrintJob_t qs_job(int *id)
+PrintJob_t qd_job(int *id)
 {
     PrintJob_t job;
     printf("Introduzca el usuario: ");
@@ -152,56 +166,79 @@ PrintJob_t qs_job(int *id)
     job.id = *id;
     (*id)++;
     system("CLS");
-    job.paginas_total = valida_int(1, 9999, "Introduzca el numero de paginas del documento(MAX 10000): ");
-    job.copias = valida_int(1, 999, "Introduzca la cantidad de copias del documento(MAx 1000)");
+    job.paginas_total = valida_int(1, 9999, "Introduzca el numero de páginas del documento(MAX 9999): ");
+    job.copias = valida_int(1, 999, "Introduzca la cantidad de copias del documento(MAx 999):");
     job.paginas_restantes = job.paginas_total * job.copias;
     return job;
 }
 
-int qs_enqueue(QueueStatic_t *q, PrintJob_t job)
+int qd_enqueue(QueueDynamic_t *q, PrintJob_t job)
 {
-    if (q->size == MAX_JOBS)
+    Node_t *nuevoNodo = qd_nodo(job);
+
+    if (nuevoNodo == NULL)
     {
-        return 0; // cola llena
+        return 0;
     }
 
-    q->data[q->size] = job;
+    if (q->size == 0)
+    {
+        q->head = nuevoNodo;
+        q->tail = nuevoNodo;
+    }
+    else
+    {
+        q->tail->next = nuevoNodo;
+        q->tail = nuevoNodo;
+    }
+
     q->size++;
     return 1;
 }
 
-int qs_peek(const QueueStatic_t *q, PrintJob_t *out)
+Node_t *qd_nodo(PrintJob_t job)
 {
-    if (q->size == 0)
-    {
-        return 0;
-    }
-    *out = q->data[0];
+    Node_t *nuevoNodo = (Node_t *)malloc(sizeof(Node_t));
+    nuevoNodo->job = job;
+    nuevoNodo->next = NULL;
+    return nuevoNodo;
+}
+
+int qd_peek(const QueueDynamic_t *q, PrintJob_t *out)
+{
+    *out = q->head->job;
     return 1;
 }
 
-int qs_dequeue(QueueStatic_t *q, PrintJob_t *out)
+int qd_dequeue(QueueDynamic_t *q, PrintJob_t *out)
 {
-    if (q->size == 0)
-        return 0; // cola vacia
+    *out = q->head->job;
 
-    *out = q->data[0];
-    out->estado = COMPLETADO;
-
-    for (int i = 1; i < q->size; i++)
+    if (q->size == 1)
     {
-        q->data[i - 1] = q->data[i]; // desplazar hacia la izquierda
+        free(q->head);
+        q->head = NULL;
+        q->tail = NULL;
     }
+    else
+    {
+        Node_t *aux = q->head;
+        q->head = q->head->next;
+        free(aux);
+    }
+
     q->size--;
     return 1;
 }
 
-void qs_init(QueueStatic_t *q)
+void qd_init(QueueDynamic_t *q)
 {
     q->size = 0;
+    q->head = NULL;
+    q->tail = NULL;
 }
 
-int qs_is_empty(const QueueStatic_t *q)
+int qd_is_empty(const QueueDynamic_t *q)
 {
     if (q->size == 0)
     {
@@ -210,29 +247,23 @@ int qs_is_empty(const QueueStatic_t *q)
     return 0;
 }
 
-int qs_is_full(const QueueStatic_t *q)
-{
-    if (q->size == MAX_JOBS)
-    {
-        return 1;
-    }
-
-    return 0;
-}
-
-void qs_print(const QueueStatic_t *q)
+void qd_print(const QueueDynamic_t *q)
 {
     int i = 0;
-    qs_encabezado();
+    qd_encabezado();
+    Node_t *aux = q->head;
+
     while (i < q->size || i < q->size)
     {
-        qs_out(q->data[i]);
+        qd_out(aux->job);
+        aux = aux->next;
         i++;
     }
+
     system("PAUSE");
 }
 
-void qs_out(const PrintJob_t job)
+void qd_out(const PrintJob_t job)
 {
     printf("| %-3d | %-15s | %-20s | %-6d | %-6d | %-6d | %-12d | %-10d |\n",
            job.id,
@@ -245,10 +276,37 @@ void qs_out(const PrintJob_t job)
            job.prioridad);
 }
 
-void qs_encabezado()
+void qd_encabezado()
 {
     printf("-------------------------------------------------------------------------------------------------------\n");
     printf("| %-3s | %-15s | %-20s | %-6s | %-6s | %-6s | %-12s | %-10s |\n",
            "ID", "USUARIO", "DOCUMENTO", "TOT", "REST", "COP", "ESTADO", "PRIORIDAD");
     printf("-------------------------------------------------------------------------------------------------------\n");
+}
+
+void qd_destroy(QueueDynamic_t *q)
+{
+    if (q->size == 0)
+    {
+        return;
+    }
+
+    Node_t *aux = q->head;
+    Node_t *actual = NULL;
+    int i = 1;
+
+    while (i <= q->size)
+    {
+        if (aux->next == NULL)
+        {
+            free(aux);
+        }
+        else
+        {
+            actual = aux->next;
+            aux = aux->next;
+            free(actual);
+        }
+        i++;
+    }
 }
