@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>Dashboard del Estacionamiento</h2>
+    
+    <div class="card" style="margin-bottom: 20px;">
+        <h3>Estado de Ocupación</h3>
+        <p><strong>{{ ocupacion }}</strong></p>
+        <p>Ingresos Totales: <strong>${{ ingresos }}</strong></p>
+    </div>
+
+    <h3>Tickets Activos</h3>
+    {% if tickets %}
+        <table border="1" cellpadding="8" style="border-collapse: collapse;">
+            <tr>
+                <th>ID Ticket</th>
+                <th>Placas</th>
+                <th>Tipo</th>
+                <th>Spot</th>
+            </tr>
+            {% for t in tickets %}
+            <tr>
+                <td>#{{ t.ticket_id }}</td>
+                <td>{{ t.vehicle.get_plate() }}</td>
+                <td>{{ t.vehicle.get_type().name }}</td>
+                <td>{{ t.spot.spot_id }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <p>No hay vehículos en el estacionamiento.</p>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>Registrar Entrada de Vehículo</h2>
+    <div class="card">
+        <form method="POST" action="/entry">
+            <p>
+                <label>Placas:</label><br>
+                <input type="text" name="plate" required>
+            </p>
+            <p>
+                <label>Tipo de Vehículo:</label><br>
+                <select name="type" required>
+                    <option value="CAR">Automóvil (CAR)</option>
+                    <option value="MOTORCYCLE">Motocicleta (MOTORCYCLE)</option>
+                </select>
+            </p>
+            <button type="submit">Dar de Entrada</button>
+        </form>
+    </div>
+{% endblock %}
