@@ -1,3 +1,9 @@
+---
+title: "Práctica 2: Parking"
+date: 2026-05-01
+draft: false
+---
+
 # Reporte de Actividad — Simulador de Estacionamiento
 
 # Práctica 2

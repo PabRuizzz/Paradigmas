@@ -1,3 +1,9 @@
+---
+title: "Práctica 1: Colas"
+date: 2026-05-01
+draft: false
+---
+
 # Reporte de Actividad — Sistema de Cola de Impresión
 
 # Práctica 1
