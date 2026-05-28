@@ -2,6 +2,7 @@
 title: "Práctica 0: Manejo de Repositorios (Markdown, Git, Hugo)"
 date: 2026-02-20
 draft: false
+weight = 1 
 ---
 
 # Práctica 0

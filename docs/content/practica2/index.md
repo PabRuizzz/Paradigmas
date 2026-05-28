@@ -2,10 +2,8 @@
 title: "Práctica 2: Parking"
 date: 2026-04-03
 draft: false
+weight = 3
 ---
-
-# Reporte de Actividad — Simulador de Estacionamiento
-
 # Práctica 2
 
 Pablo Fernando Ruiz Perez  379207

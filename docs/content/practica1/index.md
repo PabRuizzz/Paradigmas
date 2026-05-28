@@ -2,10 +2,8 @@
 title: "Práctica 1: Colas"
 date: 2026-03-13
 draft: false
+weight = 2
 ---
-
-# Reporte de Actividad — Sistema de Cola de Impresión
-
 # Práctica 1
 
 Pablo Fernando Ruiz Perez  379207

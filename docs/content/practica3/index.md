@@ -2,10 +2,8 @@
 title: "Práctica 3: Haskell"
 date: 2026-04-01
 draft: false
+weight = 4
 ---
-
-# Reporte de Actividad — Haskell
-
 # Práctica 3
 
 Pablo Fernando Ruiz Perez  379207
